@@ -44,22 +44,46 @@ void TelegramHandler::handleMessages(int n){
     //dame todos los mensajes
     String text = bot.messages[i].text; //contenido de cada mensaje
     Serial.println("Mensaje recibido: " + text);
-    if(text == "/start"){
-      // al estar dentro de una cadena se deben usar los caracteres de escape para las comillas
-      String json = "[[\"/ledAzulOn\", \"/ledAzulOff\", \"/ledVerdeOn\", \"/ledVerdeOff\"], [\"/dht22\", \"/pote\", \"/platiot\", \"/display\"]]";
-      //manda como texto lo que dice el boton json por lo que se debe cambiar las opciones
-      bot.sendMessageWithReplyKeyboard(
-        chat_id, 
-        "Chat iniciado! \n Comandos: \n /ledAzulOn: enciende LED AZUL \n /ledAzulOff: apagar LED AZUL "
-        "\n /ledVerdeOn: enciende LED VERDE \n /ledVerdeOff: apagar LED VERDE" 
-        "\n /dht22: informar valores de humedad y temperatura"
-        "\n /pote: leer valor de voltaje del potenciometro"
-        "\n /platiot enviar datos de humedad y temperatura a ..."
-        "\n /display<conmando>: permite mostrar el estado de los componentes en el display"
-        "\n \t led-pote-dht22", "", json);
-      //mensaje de bienvenida + mostrar opciones de MENU:
-      //el mensaje va para un chat_id concreto
+    String type = bot.messages[i].type;
 
+    if (type == "callback_query") {
+        // En algunas versiones el callback llega dentro de text
+        text = bot.messages[i].text;
+        bot.answerCallbackQuery(bot.messages[i].query_id, "✔️ Comando recibido");
+        Serial.println("Callback recibido: " + text);
+    }
+    if (text == "/start") {
+    String keyboardJson = 
+      "["
+        "[{\"text\":\"LED Azul ON\",\"callback_data\":\"/ledAzulOn\"},"
+         "{\"text\":\"LED Azul OFF\",\"callback_data\":\"/ledAzulOff\"}],"
+        "[{\"text\":\"LED Verde ON\",\"callback_data\":\"/ledVerdeOn\"},"
+         "{\"text\":\"LED Verde OFF\",\"callback_data\":\"/ledVerdeOff\"}],"
+        "[{\"text\":\"Leer DHT22\",\"callback_data\":\"/dht22\"},"
+         "{\"text\":\"Leer Potenciómetro\",\"callback_data\":\"/pote\"}],"
+        "[{\"text\":\"Enviar a ThingSpeak\",\"callback_data\":\"/platiot\"}],"
+        "[{\"text\":\"Display\",\"callback_data\":\"/displaymenu\"}]"
+      "]";
+
+    bot.sendMessageWithInlineKeyboard(
+      chat_id,
+      "👋 ¡Bienvenido al Bot del dispositivo!\nSelecciona una opción:",
+      "",
+      keyboardJson);
+    }
+    else if (text == "/displaymenu") {
+    String displayKeyboard = 
+      "["
+        "[{\"text\":\"Mostrar LEDs\",\"callback_data\":\"/displayled\"}],"
+        "[{\"text\":\"Mostrar Potenciómetro\",\"callback_data\":\"/displaypote\"}],"
+        "[{\"text\":\"Mostrar DHT22\",\"callback_data\":\"/displaydht22\"}]"
+      "]";
+    
+    bot.sendMessageWithInlineKeyboard(
+      chat_id,
+      "📺 Opciones del Display:",
+      "",
+      displayKeyboard);
     }
 
     else if(text == "/ledAzulOn"){
