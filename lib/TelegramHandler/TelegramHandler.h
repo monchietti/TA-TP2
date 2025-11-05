@@ -18,7 +18,7 @@ class TelegramHandler{
         
         WiFiClientSecure secured_client;
         unsigned long previous;
-        const unsigned long SCAN_TIME = 100;
+        const unsigned long SCAN_TIME = 500;
         Device device;
         //Cliente para ThingSpeak
         WiFiClient clienteThingSpeak;

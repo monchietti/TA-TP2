@@ -14,10 +14,8 @@ _display(w, h, &Wire, reset)
 
 void Device::begin()
 {   
-    Serial.println("INICIANDO...");
+    Serial.println("INICIANDO DISPOSITIVO...");
     // inicializacion de la pantalla
-    Serial.println(PIN_SDA);
-    Serial.println(PIN_SCL);
     Wire.begin(PIN_SDA, PIN_SCL);
     if (!_display.begin(0x3C, true))
     {
@@ -87,34 +85,28 @@ void Device::showDisplay(){
         mostrarPantallaLeds();
     }
     else{
-        escribirPantalla("\n \n \n \n TP2 - GRUPO 3");
+        escribirPantalla("\n\n\n\n    TP2 - GRUPO 3");
     }
 }
 
 void Device::mostrarPantallaDHT(){
-    String texto = "DHT22:\n"
+    String texto = "\n\nDHT22:\n"
                     "Temp: " + String(readTemp()) + " C\n" +
                     "Humedad: " + String(readHum()) + " %";
     escribirPantalla(texto);
 }
 
 void Device::mostrarPantallaPote(){
-    String texto = "POTENCIOMETRO:\n"
+    String texto = "\n\n\nPOTENCIOMETRO:\n"
                     "Voltaje: " + String(mapPotToVolt(readPot())) + " V";
     escribirPantalla(texto);
 
 }
 
 void Device::mostrarPantallaLeds(){
-    String texto = "LED AZUL: " + String(digitalRead(LED_AZUL) ? "ENCENDIDO" : "APAGADO") + "\n" +
+    String texto = "\n\n\nLED AZUL: " + String(digitalRead(LED_AZUL) ? "ENCENDIDO" : "APAGADO") + "\n" +
                     "LED VERDE: " + String(digitalRead(LED_VERDE) ? "ENCENDIDO" : "APAGADO");
     escribirPantalla(texto);
 }
 
-
-// ========== FUNCIONES DEL ENCODER ==========
-//valida si hubo o no rotacion y en que direccion
-
-
-// ========== FUNCIONES DEL MENÚ ==========
 

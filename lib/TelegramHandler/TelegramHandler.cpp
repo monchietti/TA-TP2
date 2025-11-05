@@ -12,7 +12,6 @@ void TelegramHandler::begin(){
     device.begin();
     ThingSpeak.begin(clienteThingSpeak);// Inicia ThingSpeak con el cliente
 
-
 }
 
 
@@ -50,9 +49,9 @@ void TelegramHandler::handleMessages(int n){
         // En algunas versiones el callback llega dentro de text
         text = bot.messages[i].text;
         bot.answerCallbackQuery(bot.messages[i].query_id, "✔️ Comando recibido");
-        Serial.println("Callback recibido: " + text);
     }
     if (text == "/start") {
+      // Construir el teclado inline. (texto, callback_data: lo que se recibe al presionar)
     String keyboardJson = 
       "["
         "[{\"text\":\"LED Azul ON\",\"callback_data\":\"/ledAzulOn\"},"

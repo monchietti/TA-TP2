@@ -12,8 +12,8 @@
 
 //Constantes
 String token = "8444080654:AAEshP2UtNAy5kTm1pbJoeyQ3LyLWTh5Ddw";
-String ssid = "Wokwi-GUEST";
-String password = "";
+String ssid = "moto g6 plus";
+String password = "12345678";
 
 // ---- Objetos ----
 Device device(127, 64, -1,  I2C_SDA, I2C_SCL, PIN_DHT, DHT22, PIN_POT, LED_AZUL, LED_VERDE);
